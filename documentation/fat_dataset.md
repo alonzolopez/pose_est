@@ -143,15 +143,15 @@ The image files are
 Each annotation file includes
 - XYZ position and orientation of the camera in the world coordinate frame (`camera_data`)
 - for each object,
-  - class name (`class`)
+  - class name (`class`). For the can of spam, we want *010_potted_meat_can*
   - visibility, defined as the percentage of the object that is not occluded (`visibility`).  (0 means fully occluded whereas 1 means fully visible)
   - XYZ position (in centimeters) and orientation (`location` and `quaternion_xyzw`)
-  - 4x4 transformation (redundant, can be computed from previous) (`pose_transform_permuted`)
-  - 3D position of the centroid of the bounding cuboid (in centimeters) (`cuboid_centroid`)
-  - 2D projection of the previous onto the image (in pixels) (`projected_cuboid_centroid`)
+  - 4x4 transformation (redundant, can be computed from previous) (`pose_transform_permuted`). *This is used to visually check the pose of the object in the camera's frame and to check the output of solvePnPRansac.*
+  - 3D position of the centroid of the bounding cuboid (in centimeters) (`cuboid_centroid`). *This is used to input to solvePnPRansac as a test of that function's implementation before the CNN has been trained.*
+  - 2D projection of the previous onto the image (in pixels) (`projected_cuboid_centroid`). *This is a keypoint prediction output from the CNN to train against and to test solvePnPRansac before the CNN has been trained.*
   - 2D bounding box of the object in the image (in pixels) (`bounding_box`)
-  - 3D coordinates of the vertices of the 3D bounding cuboid (in centimeters) (`cuboid`)
-  - 2D coordinates of the projection of the above (in pixels (`projected_cuboid`) 
+  - 3D coordinates of the vertices of the 3D bounding cuboid (in centimeters) (`cuboid`). *This is used to input to solvePnPRansac as a test of that function's implementation before the CNN has been trained.*
+  - 2D coordinates of the projection of the above (in pixels (`projected_cuboid`). *These are keypoint prediction outputs from the CNN to train against and to test solvePnPRansac before the CNN has been trained.*
 
 *Note:*  Like the `fixed_model_transform`, the `pose_transform_permuted` is actually the transpose of the matrix.  Moreover, after transposing, the columns are permuted, and there is a sign flip (due to UE4's use of a lefthand coordinate system).  Specifically, if `A` is the matrix given by `pose_transform_permuted`, then actual transform is given by `A^T * P`, where `^T` denotes transpose, `*` denotes matrix multiplication, and the permutation matrix `P` is given by
 ```

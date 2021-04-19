@@ -17,7 +17,7 @@ The goal of this work is to provide a repurposable 6DOF pose estimation algorith
 - [NVIDIA Deep Learning Dataset Synthesizer](https://github.com/NVIDIA/Dataset_Synthesizer) a.k.a. NDDS
 - [FAT Dataset](https://research.nvidia.com/publication/2018-06_Falling-Things), a.k.a. Falling Things: A Synthetic Dataset for 3D Object Detection and Pose Estimation
 - [Camera Calibration and 3D Reconstruction](https://docs.opencv.org/master/d9/d0c/group__calib3d.html) (OpenCV docs on SolvePnP and Camera Calibration)
-
+- [Keras Computer Vision Code Examples](https://keras.io/examples/vision/)
 
 # Dev Notes
 ## Virtual Environment Setup
@@ -30,7 +30,8 @@ source pose-est-env/bin/activate
 pip install --no-cache-dir --upgrade pip
 pip install --upgrade setuptools
 pip install -r ./requirements.txt
-sudo apt install npm
+curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -
+sudo apt install npm nodejs
 jupyter labextension install jupyterlab-plotly
 jupyter labextension install @jupyter-widgets/jupyterlab-manager plotlywidget
 ```
@@ -50,7 +51,7 @@ pip install -r .\requirements.txt
     cd Dataset_Utilities
     pip install -e .
     ```
-2. Setup the YCB objects
+2. Setup the YCB objects while in the same directory
     ```
     nvdu_ycb -s
     ```
@@ -112,12 +113,11 @@ Use the [NVDU Controls](https://github.com/NVIDIA/Dataset_Utilities#controls) to
 >```
 >nvdu_viz -m /home/alonzo/catkin_ws/src/pose_est/Dataset_Utilities/nvdu/data/ycb/original/010_potted_meat_can/google_16k -n 000002.right* 000002.left.jpg
 >```
+> The following error was also observed:
+> ```
+> pyglet.gl.ContextException: Could not create GL context
+> ```
+> and the solution was to restart the computer.
 
 ## Interpreting the Dataset
-Every image comes with a json file. The `pose_transform_permuted` in each json file is actually the transpose of the relative pose matrix.  Moreover, after transposing, the columns are permuted, and there is a sign flip (due to UE4's use of a lefthand coordinate system). If `A` is the matrix given by `pose_transform_permuted`, then actual transform is given by `A^T * P`, where `^T` denotes transpose, `*` denotes matrix multiplication, and the permutation matrix `P` is given by
-```
-    [ 0  0  1]
-P = [ 1  0  0]
-    [ 0 -1  0]
-```
-
+See [File Details](fat_dataset.md#file-details) for details on the annotation files for both camera properties and json image labels.
