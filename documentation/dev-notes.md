@@ -129,12 +129,12 @@ Note that the camera properties are the same across the entire dataset, so we on
 ## Types of convolutions in the Network
 For a refresher on types of convolutions, see [A Comprehensive Introduction to Different Types of Convolutions in Deep Learning](https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215). 
 - 2D convolution
-![2D Convolution](images/2d-conv-1.png)
-![2D Convolution](images/2d-conv-2.png)
+    ![2D Convolution](images/2d-conv-1.png)
+    ![2D Convolution](images/2d-conv-2.png)
 - Depthwise separable convolution
-![depthwise separable convolution](images/depthwise-separable-conv-1.png)
-![depthwise separable convolution](images/depthwise-separable-conv-2.png)
-![depthwise separable convolution](images/depthwise-separable-conv-3.png)
+    ![depthwise separable convolution](images/depthwise-separable-conv-1.png)
+    ![depthwise separable convolution](images/depthwise-separable-conv-2.png)
+    ![depthwise separable convolution](images/depthwise-separable-conv-3.png)
 
 ## What is DOPE predicting?
 > In short, for each object that requires a pose estimation, DOPE predicts nine belief maps and eight vector fields. Each of the nine belief maps correspond to a cuboid keypoint (eight vertices plus one centroid makes nine total keypoints). The eight vector fields indicate the direction from each of the eight vertices to its corresponding centroid in order to enable detection of multiple instances of the same object.[- Tremblay, 2](https://arxiv.org/pdf/1809.10790.pdf)
@@ -150,14 +150,20 @@ For more info on how ground truth belief maps are created, see the CreateBeliefM
 The belief maps I'm working with are written slightly differently, expect a slightly different input, but produce the same output.
 
 For a given image, for example,
+
 ![FAT dataset image](images/fat-4000.png)
 
 Nine belief maps are produced indicating the belief map for each keypoint. For example, for keypoint #1:
+
 ![keypoint 1](images/keypoint-1.png)
+
 And keypoint #2:
+
 ![keypoint 2](images/keypoint-2.png)
+
 And so on for the remaining keypoints (including the centroid). 
 **Important** if the object appears twice in the scene (e.g. two spam cans), then each keypoint belief map will feature two keypoints, one for each can. For example, an image with two cans will show the following for keypoint #1's belief map:
+
 ![belief map for keypoint #1 with two objects in the scene](images/keypoint-1-double.png)
 
 ### Ground Truth Vector Fields
